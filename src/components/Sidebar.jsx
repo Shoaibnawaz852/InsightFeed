@@ -13,30 +13,37 @@ const categories = [
 export default function Sidebar() {
   const location = useLocation()
 
+  const isMobile = window.innerWidth < 768
+
   return (
     <div
       style={{
-        width: "240px",
+        width: isMobile ? "100%" : "240px",
         background: "#ffffff",
         color: "#0f172a",
-        padding: "24px",
-        borderRight: "1px solid #e2e8f0",
-        height: "100vh",
-        position: "sticky",
-        top: 0
+        padding: isMobile ? "12px 16px" : "24px",
+        borderRight: isMobile ? "none" : "1px solid #e2e8f0",
+        borderBottom: isMobile ? "1px solid #e2e8f0" : "none",
+        height: isMobile ? "auto" : "100vh",
+        position: isMobile ? "static" : "sticky",
+        top: 0,
+        overflowX: isMobile ? "auto" : "visible",
+        whiteSpace: isMobile ? "nowrap" : "normal"
       }}
     >
-      {/* Logo / Title */}
-      <h2
-        style={{
-          fontSize: "22px",
-          fontWeight: "700",
-          marginBottom: "30px",
-          color: "#0f172a"
-        }}
-      >
-        InsightFeed
-      </h2>
+      {/* Title (only for desktop) */}
+      {!isMobile && (
+        <h2
+          style={{
+            fontSize: "22px",
+            fontWeight: "700",
+            marginBottom: "30px",
+            color: "#0f172a"
+          }}
+        >
+          InsightFeed
+        </h2>
+      )}
 
       {/* Categories */}
       {categories.map((cat) => {
@@ -48,15 +55,17 @@ export default function Sidebar() {
             key={cat.name}
             to={path}
             style={{
-              display: "block",
-              padding: "10px 12px",
-              marginBottom: "8px",
+              display: isMobile ? "inline-block" : "block",
+              padding: "10px 14px",
+              marginRight: isMobile ? "8px" : "0",
+              marginBottom: isMobile ? "0" : "8px",
               borderRadius: "8px",
               textDecoration: "none",
               fontSize: "14px",
               fontWeight: isActive ? "600" : "500",
               color: isActive ? "#2563eb" : "#475569",
               background: isActive ? "#eff6ff" : "transparent",
+              border: isMobile ? "1px solid #e2e8f0" : "none",
               transition: "all 0.2s"
             }}
           >
