@@ -1,19 +1,31 @@
 import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
 import { supabase } from "../lib/supabase"
 
 export default function Home() {
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
 
+  const { tag } = useParams()   // <-- read category from URL
+
   useEffect(() => {
     fetchPosts()
-  }, [])
+  }, [tag])   // <-- refetch when category changes
 
   async function fetchPosts() {
-    const { data, error } = await supabase
+    setLoading(true)
+
+    let query = supabase
       .from("posts")
       .select("*")
       .order("created_at", { ascending: false })
+
+    // If category selected → filter
+    if (tag) {
+      query = query.eq("tech_tag", tag)
+    }
+
+    const { data, error } = await query
 
     if (error) {
       console.error(error)
@@ -30,11 +42,13 @@ export default function Home() {
 
   return (
     <div style={{ padding: "20px", color: "white" }}>
-      <h2>Latest Insights</h2>
+      <h2>
+        Latest Insights {tag ? `- ${tag}` : ""}
+      </h2>
 
       {posts.length === 0 && (
         <p style={{ marginTop: "20px", color: "#94a3b8" }}>
-          No posts yet. Add some data in Supabase.
+          No posts found for this category.
         </p>
       )}
 
