@@ -1,5 +1,6 @@
 import Sidebar from "./components/Sidebar"
 import Home from "./pages/Home"
+import PostDetails from "./pages/PostDetails"
 import { Routes, Route } from "react-router-dom"
 
 function App() {
@@ -11,6 +12,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/category/:tag" element={<Home />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/post/:id" element={<PostDetails />} />
         </Routes>
       </div>
     </div>

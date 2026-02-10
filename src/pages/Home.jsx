@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { supabase } from "../lib/supabase"
+import { Link } from "react-router-dom"
+
 
 export default function Home() {
   const [posts, setPosts] = useState([])
@@ -53,23 +55,26 @@ export default function Home() {
       )}
 
       {posts.map((post) => (
-        <div
-          key={post.id}
-          style={{
-            marginTop: "20px",
-            padding: "15px",
-            background: "#020617",
-            border: "1px solid #1e293b",
-            borderRadius: "8px"
-          }}
-        >
-          <h3>{post.title}</h3>
+  <Link
+    key={post.id}
+    to={`/post/${post.id}`}
+    style={{ textDecoration: "none", color: "white" }}
+  >
+    <div
+      style={{
+        marginTop: "20px",
+        padding: "15px",
+        background: "#020617",
+        border: "1px solid #1e293b",
+        borderRadius: "8px",
+        cursor: "pointer"
+      }}
+    >
+      <h3>{post.title}</h3>
 
-          <div style={{ fontSize: "12px", color: "#94a3b8", marginTop: "5px" }}>
-            {post.tech_tag || "General"} • {post.upvotes || 0} upvotes
-          </div>
-        </div>
-      ))}
+      <div style={{ fontSize: "12px", color: "#94a3b8", marginTop: "5px" }}>
+        {post.tech_tag || "General"} • {post.upvotes || 0} upvotes
+      </div>
     </div>
-  )
-}
+  </Link>
+))}
